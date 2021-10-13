@@ -16,7 +16,10 @@
  * example: 'Buzz Lightyear' returns 'Lightyear, Buzz'
  */
 function nameShuffle(str) {
-  // write your code here & return value
+  const nameArray = str.split(' ');
+  const surname = nameArray.pop();
+  const givenName = nameArray.join(' ');
+  return surname.concat(', ').concat(givenName);
 }
 
 /**
@@ -34,7 +37,13 @@ function nameShuffle(str) {
  * example: '&', '&' returns true
  */
 function isStrangePair(str1, str2) {
-  // write your code here & return value
+  let pair = false;
+  if (str1.slice(-1) === str2.charAt(0)) {
+    pair = true;
+  } else if (str2.slice(-1) === str2.charAt(0)) {
+    pair = true;
+  }
+  return pair;
 }
 
 /**
@@ -78,5 +87,5 @@ module.exports = {
   isStrangePair,
   convertToDecimal,
   checkSameSum,
-  saveLogin
+  saveLogin,
 };
