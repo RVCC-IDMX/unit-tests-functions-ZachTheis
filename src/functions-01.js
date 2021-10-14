@@ -37,13 +37,7 @@ function nameShuffle(str) {
  * example: '&', '&' returns true
  */
 function isStrangePair(str1, str2) {
-  let pair = false;
-  if (str1.slice(-1) === str2.charAt(0)) {
-    pair = true;
-  } else if (str2.slice(-1) === str2.charAt(0)) {
-    pair = true;
-  }
-  return pair;
+  return str1.slice(-1) === str2.charAt(0) && str2.slice(-1) === str1.charAt(0);
 }
 
 /**
@@ -55,7 +49,8 @@ function isStrangePair(str1, str2) {
  * example: '98.6%' returns 0.986
  */
 function convertToDecimal(percent) {
-  // write your code here & return value
+  const num = percent.replace('%', '');
+  return +num / 100;
 }
 
 /**
@@ -68,7 +63,35 @@ function convertToDecimal(percent) {
  * example: [1, 2, 3, 4], [4, 3, 2, 1, 5] returns false
  */
 function checkSameSum(a1, a2) {
-  // write your code here & return value
+  // Solution 1
+  // const reducer = (previousValue, currentValue) => previousValue + currentValue;
+  // const sum1 = a1.reduce(reducer);
+  // const sum2 = a2.reduce(reducer);
+  // return sum1 === sum2;
+
+  // Solution 2
+  // let sum1 = 0;
+  // a1.forEach((item) => {
+  //   sum1 += item;
+  // });
+
+  // let sum2 = 0;
+  // a2.forEach((item) => {
+  //   sum2 += item;
+  // });
+
+  // return sum1 === sum2;
+
+  // Solution 3
+  const sumTotal = (arr) => {
+    let sum = 0;
+    arr.forEach((item) => {
+      sum += item;
+    });
+    return sum;
+  };
+
+  return sumTotal(a1) === sumTotal(a2);
 }
 
 /**
@@ -79,7 +102,10 @@ function checkSameSum(a1, a2) {
  * must use a closure to save the username
  */
 function saveLogin(name) {
-  // write your code here
+  // eslint-disable-next-line func-names
+  return function () {
+    return name;
+  };
 }
 
 module.exports = {
