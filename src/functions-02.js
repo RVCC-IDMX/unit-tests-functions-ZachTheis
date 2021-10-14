@@ -68,8 +68,8 @@ const store = {
    * @method getName
    * @returns {string} - the name of the store
    */
-  getName() {
-    // write your code here & return value
+  getName: function getName() {
+    return this.name;
   },
   /**
    * Returns the inventory of the store
@@ -77,7 +77,7 @@ const store = {
    * @returns {array} - the inventory of the store
    */
   getInventory() {
-    // write your code here & return value
+    return inventory;
   },
   /**
    * Returns an arrays of most expensive items in inventory
@@ -86,7 +86,7 @@ const store = {
    * @return {array} items - the array of items that are filtered
    */
   getExpensiveItems(maxPrice) {
-    // write your code here & return value
+    return inventory.filter((item) => item.price >= maxPrice);
   },
   /**
    * Returns an array of item names in store
@@ -94,7 +94,7 @@ const store = {
    * @return {array} items - the array of items that are filtered
    */
   getStoreItems() {
-    // write your code here & return value
+    return inventory.map((item) => item.name);
   },
   /**
    * Returns true if the item is in the store
@@ -104,7 +104,7 @@ const store = {
    * false otherwise
    */
   isItemInStore(itemName) {
-    // write your code here & return value
+    return inventory.some((item) => item.name === itemName);
   },
   /**
    * Returns the price of the item
@@ -115,7 +115,11 @@ const store = {
    * must use isItemInStore() method in this object
    */
   getItemPrice(itemName) {
-    // write your code here & return value
+    if (!this.isItemInStore(itemName)) {
+      return -1;
+    }
+    const targetItem = inventory.find((item) => item.name === itemName);
+    return targetItem.price;
   },
 
   /**
@@ -127,35 +131,57 @@ const store = {
    * must use isItemInStore() method in this object
    */
   getItemQuantity(itemName) {
-    // write your code here & return value
+    if (!this.isItemInStore(itemName)) {
+      return -1;
+    }
+    const targetItem = inventory.find((item) => item.name === itemName);
+    return targetItem.quantity;
   },
 
   /**
    * Adds to the quantity of the item
    * @method addItemQuantity
    * @param {string} itemName - the name of the item
-   * @param {number} price - the price of the item
-   * @param {number} quantity - the quantity of the item
+   * @param {number} itemPrice - the price of the item
+   * @param {number} quantityIncrease - the quantity of the item
    * @return {number} quantity - the quantity of the item after processing
    * If the item is already in the store, the quantity is updated
    * If the item is not in the store, the item is added to the store
    * must use isItemInStore() method in this object
    */
-  addItemQuantity(itemName, price, quantity) {
-    // write your code here & return value
+  addItemQuantity(itemName, itemPrice, quantityIncrease) {
+    if (this.isItemInStore(itemName)) {
+      inventory.find((item) => item.name === itemName).quantity +=
+        quantityIncrease;
+      return inventory.find((item) => item.name === itemName).quantity;
+    }
+    inventory.push({
+      name: itemName,
+      price: itemPrice,
+      quantity: quantityIncrease,
+    });
+    return quantityIncrease;
   },
   /**
    * Removes a certain quantity of an item from the store
    * @method removeItemQuantity
    * @param {string} itemName - name of the item to remove from store
-   * @return {number} quantity - the quantity of the items to remove
+   * @return {number} quantityDecrease - the quantity of the items to remove
    * @return {number} newQuantity - the quantity of the item
    * after processing, or -1 if the item is not in the store
    * or -1 if the quantity to remove is greater than the quantity of the item
    * must use isItemInStore() method in this object
    */
-  removeItemQuantity(itemName, quantity) {
-    // write your code here & return value
+  removeItemQuantity(itemName, quantityDecrease) {
+    if (!this.isItemInStore(itemName)) {
+      return -1;
+    }
+    const targetItem = inventory.find((item) => item.name === itemName);
+    if (targetItem.quantity < quantityDecrease) {
+      return -1;
+    }
+    targetItem.quantity -= quantityDecrease;
+    return targetItem.quantity;
   },
   /**
    * Returns the total of all the items in the store
@@ -164,7 +190,8 @@ const store = {
    * must use the reduce() array method
    */
   getTotalValue() {
-    // write your code here & return value
+    const valueArray = inventory.map((item) => item.price * item.quantity);
+    return valueArray.reduce((item1, item2) => item1 + item2);
   },
 };
 
